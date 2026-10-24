@@ -1,1 +1,1 @@
-# simple_instagram
+# simple instagram
