@@ -1,1 +1,1 @@
-# simple instagram
+# Simple Instagram
