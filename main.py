@@ -1,6 +1,7 @@
-def main():
-    print("Hello from simple-instagram!")
-
+import uvicorn
 
 if __name__ == "__main__":
-    main()
+    uvicorn.run("src.app:app", host = "localhost", port=8000, reload=True)
+
+
+
