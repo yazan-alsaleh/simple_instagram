@@ -9,7 +9,7 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from sqlalchemy.orm import DeclarativeBase, relationship
 
 
-DATEBASE_URL = "sqlite+aiosqlite:///.test.db"
+DATEBASE_URL = "sqlite+aiosqlite:///.test.db" # Create local database
 
 
 class Post(DeclarativeBase):
@@ -23,5 +23,20 @@ class Post(DeclarativeBase):
 
 
 
+# The engine will look at the above data model and create the database
+engine = create_async_engine(DATEBASE_URL)
+async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
+
+
+# Create the database as well the tables and start the database engine
+async def create_db_and_tables():
+    async with engine.begin() as conn:
+        await conn.run_sync(DeclarativeBase.metadata.create_all) 
+        # This will look at all clases that has DeclarativeBase and create them inside the database
+
+# This will create a session which will allow as to connect to the database and write and read from it asynchronously
+async def get_async_session() -> AsyncGenerator[AsyncGenerator, None]:
+    async with async_session_maker() as session:
+        yield session
 
